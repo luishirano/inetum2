@@ -20,6 +20,7 @@ import com.usuario.service.servicio.UsuarioService;
 @RequestMapping("/usuario")
 public class UsuarioController {
 
+	 
 	@Autowired
 	private UsuarioService usuarioService;
 	
@@ -49,12 +50,16 @@ public class UsuarioController {
 	
 	@GetMapping("/carros/{usuarioId}")
 	public ResponseEntity<List<Carro>> listarCarros(@PathVariable("usuarioId") int id){
-		Usuario usuario = usuarioService.getUsuarioById(id);
+		List<Carro> carros = null;
+		try {
+			Usuario usuario = usuarioService.getUsuarioById(id);	
 		if(usuario == null) {
 			return ResponseEntity.notFound().build();
 		}
-		
-		List<Carro> carros = usuarioService.getCarros(id);
+			carros = usuarioService.getCarros(id);	
+		}catch(Exception e) {
+
+		}
 		return ResponseEntity.ok(carros);
 	}
 	
